@@ -1,0 +1,24 @@
+{
+  "name": "yakweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/backend/server.js",
+    "dev": "npx -y nodemon src/backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.8",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^17.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^9.0.3"
+  }
+}
