@@ -25,7 +25,7 @@ const LENGUA_INFO = {
         hablantes: "Comunidad Sorda e incluyente de México",
         descripcion: "La LSM es la lengua oficial articulada por la comunidad sorda en las regiones urbanas y rurales de México. Consiste en una gramática propia expresada mediante signos gestuales, manos y expresiones faciales.",
         color: "#8B5CF6",
-        temas: ["Abecedario dactilológico", "Saludos comunes", "Números del 1 al 5", "Cosas de la casa"]
+        temas: ["Abecedario dactilológico", "Saludos comunes", "Números del 1 al 5", "Cosas del hogar"]
     }
 };
 
