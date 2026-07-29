@@ -27,7 +27,7 @@
 
 ###  Cliente
 - **Sistema Operativo**: Windows 10/11, macOS 10.15+, Linux, Android 8.0+, iOS 13.0+.
-- **Navegadores Compatibles**: Google Chrome 90+, Mozilla Firefox 88+, Microsoft Edge 90+, Apple Safari 14+.
+- **Navegadores Compatibles**: Google Chrome, Microsoft Edge, Apple Safari.
 
 ###  Servidor y Entorno de Desarrollo
 - **Entorno de Ejecución**: Node.js v18.0.0 o superior (v24.x recomendado).
