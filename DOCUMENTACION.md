@@ -253,7 +253,7 @@ GRAPHQL COUNT: 120
 
 ---
 
-## 11. Spec-Driven Development (SDD asistido por IA - LLM)
+## 11. Human-in-the-Loop (HITL)
 
 El proyecto **YAK Platform** fue desarrollado utilizando la metodología **Human-in-the-Loop (HITL)** apoyado por los agentes autónomos de IA de Google DeepMind (Google Antigravity SDK & AGY 2.0).
 
