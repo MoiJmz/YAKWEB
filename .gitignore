@@ -3,3 +3,5 @@ node_modules/
 .env.local
 storage_data.json
 .DS_Store
+~$*
+documentacion/
