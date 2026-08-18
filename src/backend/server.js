@@ -170,6 +170,64 @@ app.get('/api/v1/ejercicios', (req, res) => {
     res.json(result);
 });
 
+app.post('/api/v1/ejercicios', (req, res) => {
+    const role = req.headers['x-user-role'];
+    if (role !== 'ADMIN' && role !== 'OWNER') {
+        return res.status(403).json({ error: 'Permisos insuficientes para crear ejercicios.' });
+    }
+    const { lengua, nivel, titulo, pregunta, opcion1, opcion2, opcion3, opcion4, respuestaCorrecta } = req.body;
+    const newId = db.ejercicios.length > 0 ? Math.max(...db.ejercicios.map(e => e.id)) + 1 : 101;
+    const newEj = {
+        id: newId,
+        lengua,
+        nivel: nivel || 'Básico',
+        titulo: titulo || 'General',
+        pregunta,
+        opcion1,
+        opcion2,
+        opcion3,
+        opcion4,
+        respuestaCorrecta
+    };
+    db.ejercicios.push(newEj);
+    if (db.saveStorage) db.saveStorage();
+    res.status(201).json(newEj);
+});
+
+app.put('/api/v1/ejercicios/:id', (req, res) => {
+    const role = req.headers['x-user-role'];
+    if (role !== 'ADMIN' && role !== 'OWNER') {
+        return res.status(403).json({ error: 'Permisos insuficientes para modificar ejercicios.' });
+    }
+    const id = parseInt(req.params.id);
+    const index = db.ejercicios.findIndex(e => e.id === id);
+    if (index === -1) {
+        return res.status(404).json({ error: 'Ejercicio no encontrado.' });
+    }
+    db.ejercicios[index] = {
+        ...db.ejercicios[index],
+        ...req.body,
+        id
+    };
+    if (db.saveStorage) db.saveStorage();
+    res.json(db.ejercicios[index]);
+});
+
+app.delete('/api/v1/ejercicios/:id', (req, res) => {
+    const role = req.headers['x-user-role'];
+    if (role !== 'ADMIN' && role !== 'OWNER') {
+        return res.status(403).json({ error: 'Permisos insuficientes para eliminar ejercicios.' });
+    }
+    const id = parseInt(req.params.id);
+    const index = db.ejercicios.findIndex(e => e.id === id);
+    if (index === -1) {
+        return res.status(404).json({ error: 'Ejercicio no encontrado.' });
+    }
+    db.ejercicios.splice(index, 1);
+    if (db.saveStorage) db.saveStorage();
+    res.json({ success: true, message: 'Ejercicio eliminado correctamente.' });
+});
+
 // Rutas de Progreso
 app.get('/api/v1/progreso/:usuarioId', (req, res) => {
     const { usuarioId } = req.params;

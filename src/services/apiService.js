@@ -38,5 +38,55 @@ export const apiService = {
             body: JSON.stringify({ usuarioId, lengua, titulo, porcentaje, aciertos, total })
         });
         return res.json();
+    },
+
+    async crearEjercicio(ejercicioData, rol = 'USER') {
+        const res = await fetch(`${API_URL}/ejercicios`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-user-role': rol
+            },
+            body: JSON.stringify(ejercicioData)
+        });
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || 'Error al crear el ejercicio.');
+        }
+        return res.json();
+    },
+
+    async createEjercicio(ejercicioData, rol = 'USER') {
+        return this.crearEjercicio(ejercicioData, rol);
+    },
+
+    async actualizarEjercicio(id, ejercicioData, rol = 'USER') {
+        const res = await fetch(`${API_URL}/ejercicios/${id}`, {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-user-role': rol
+            },
+            body: JSON.stringify(ejercicioData)
+        });
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || 'Error al actualizar el ejercicio.');
+        }
+        return res.json();
+    },
+
+    async eliminarEjercicio(id, rol = 'USER') {
+        const res = await fetch(`${API_URL}/ejercicios/${id}`, {
+            method: 'DELETE',
+            headers: { 
+                'x-user-role': rol
+            }
+        });
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.error || 'Error al eliminar el ejercicio.');
+        }
+        return res.json();
     }
 };

@@ -8,6 +8,7 @@ import { LenguaDetailView } from './views/LenguaDetailView.js';
 import { ProgresoView } from './views/ProgresoView.js';
 import { LearningStudioView } from './views/LearningStudioView.js';
 import { PerfilView } from './views/PerfilView.js';
+import { AdminView } from './views/AdminView.js';
 import { RecuperarPasswordView } from './views/RecuperarPasswordView.js';
 
 const app = document.getElementById('app');
@@ -52,6 +53,9 @@ export const Router = {
                 break;
             case '/perfil':
                 PerfilView.render(app, user);
+                break;
+            case '/admin':
+                AdminView.render(app, user);
                 break;
             default:
                 if (user) {

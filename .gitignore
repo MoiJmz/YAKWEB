@@ -5,3 +5,5 @@ storage_data.json
 .DS_Store
 ~$*
 documentacion/
+.opencode/
+

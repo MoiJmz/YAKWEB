@@ -83,13 +83,13 @@ async function syncWithSupabase() {
 
 function saveStorage() {
     try {
-        const data = { usuarios, progresos, rachas, intentos };
+        const data = { usuarios, progresos, rachas, intentos, ejercicios };
         fs.writeFileSync(STORAGE_FILE, JSON.stringify(data, null, 2), 'utf8');
         syncWithSupabase();
     } catch(e) { console.error('Error guardando storage_data.json', e); }
 }
 
-let ejercicios = [
+let ejercicios = (savedData.ejercicios && savedData.ejercicios.length > 0) ? savedData.ejercicios : [
     // =========================================================================
     // CHOL (lakty'añ) - 40 Preguntas oficiales del documento PDF
     // =========================================================================

@@ -49,6 +49,20 @@ export const LenguaDetailView = {
             ejercicios = data.getEjerciciosPorLengua || [];
         } catch(e) { console.error(e); }
 
+        // Mapeo dinámico de temas: combina temas oficiales con cualquier tema creado por el administrador
+        const temasCountMap = {};
+        ejercicios.forEach(e => {
+            if (e.titulo) {
+                const titleTrimmed = e.titulo.trim();
+                temasCountMap[titleTrimmed] = (temasCountMap[titleTrimmed] || 0) + 1;
+            }
+        });
+
+        const temasOficiales = info.temas || [];
+        const temasOficialesLower = temasOficiales.map(t => t.toLowerCase().trim());
+        const temasNuevos = Object.keys(temasCountMap).filter(t => !temasOficialesLower.includes(t.toLowerCase().trim()));
+        const listaTemas = [...temasOficiales, ...temasNuevos];
+
         const contentHtml = `
             <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
@@ -84,20 +98,25 @@ export const LenguaDetailView = {
                     <div>
                         <h2 style="margin-bottom: 28px; font-size:26px; font-weight:700;">Contenido del Curso (Elige un Tema)</h2>
                         <div style="display:flex; flex-direction:column; gap:24px;">
-                            ${info.temas.map((tema, idx) => `
+                            ${listaTemas.map((tema, idx) => {
+                                const exactMatchCount = temasCountMap[tema];
+                                const fuzzyCount = ejercicios.filter(e => e.titulo && e.titulo.toLowerCase().trim().includes(tema.toLowerCase().trim())).length;
+                                const count = exactMatchCount || (fuzzyCount > 0 ? fuzzyCount : 10);
+                                return `
                                 <div class="card glass-panel" style="display:flex; align-items:center; justify-content:space-between; padding:28px 32px; cursor:pointer; margin-bottom:0; transition:all 0.2s ease; border-left: 6px solid ${info.color};" onclick="window.Router.navigate('/studio', { lengua: '${lenguaKey}', titulo: '${encodeURIComponent(tema)}', index: 0 })">
                                     <div style="display:flex; align-items:center; gap:24px;">
                                         <span style="background:${info.color}; color:white; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:22px;">${idx + 1}</span>
                                         <div>
                                             <h3 style="font-size:20px; color:var(--text-main); margin-bottom:6px;">${tema}</h3>
-                                            <span style="color:var(--text-muted); font-size:14px; font-weight:600;">10 ejercicios interactivos</span>
+                                            <span style="color:var(--text-muted); font-size:14px; font-weight:600;">${count} ${count === 1 ? 'ejercicio interactivo' : 'ejercicios interactivos'}</span>
                                         </div>
                                     </div>
                                     <button class="btn btn-primary" style="background:${info.color}; font-size:15px; padding:12px 24px; pointer-events:none;">
                                         Iniciar Tema
                                     </button>
                                 </div>
-                            `).join('')}
+                                `;
+                            }).join('')}
                         </div>
                     </div>
 

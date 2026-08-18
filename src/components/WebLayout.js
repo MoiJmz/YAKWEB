@@ -3,6 +3,7 @@ import { authService } from '../services/authService.js';
 
 export const WebLayout = {
     render(contentHtml, activeRoute, user) {
+        const isAdmin = user && (user.rol === 'ADMIN' || user.rol === 'OWNER');
         return `
             <div class="web-layout">
                 <!-- Sidebar -->
@@ -20,6 +21,11 @@ export const WebLayout = {
                         <a class="nav-link ${activeRoute === 'progreso' ? 'active' : ''}" id="link-progreso">
                             <span></span> Estadísticas
                         </a>
+                        ${isAdmin ? `
+                        <a class="nav-link ${activeRoute === 'admin' ? 'active' : ''}" id="link-admin">
+                            <span>⚙️</span> Admin
+                        </a>
+                        ` : ''}
                     </nav>
                 </aside>
 
@@ -47,11 +53,13 @@ export const WebLayout = {
         const linkDash = document.getElementById('link-dashboard');
         const linkCat = document.getElementById('link-catalogo');
         const linkProg = document.getElementById('link-progreso');
+        const linkAdmin = document.getElementById('link-admin');
         const btnProfile = document.getElementById('btn-user-profile');
 
         if (linkDash) linkDash.onclick = () => Router.navigate('/dashboard');
         if (linkCat) linkCat.onclick = () => Router.navigate('/catalogo');
         if (linkProg) linkProg.onclick = () => Router.navigate('/progreso');
+        if (linkAdmin) linkAdmin.onclick = () => Router.navigate('/admin');
         if (btnProfile) btnProfile.onclick = () => Router.navigate('/perfil');
     }
 };
